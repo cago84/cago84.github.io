@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mes tâches</title>
+  <meta name="description" content="Liste de tâches simple avec rappels, catégories et priorités.">
+  <meta name="theme-color" content="#34c759">
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Tâches">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-row">
+      <h1>Mes tâches</h1>
+      <button id="menuBtn" class="icon-btn" aria-label="Options">⋯</button>
+    </div>
+    <p id="summary" class="summary"></p>
+    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <div class="segmented" id="filters" role="tablist">
+      <button data-filter="all" class="active" role="tab">Toutes</button>
+      <button data-filter="todo" role="tab">À faire</button>
+      <button data-filter="done" role="tab">Terminées</button>
+    </div>
+
+    <input id="search" type="search" placeholder="Rechercher une tâche" aria-label="Rechercher">
+  </header>
+
+  <main>
+    <ul id="list" class="list"></ul>
+    <div id="empty" class="empty" hidden>
+      <div class="empty-icon">✅</div>
+      <h2 id="emptyTitle">Aucune tâche</h2>
+      <p id="emptyText">Touchez + pour ajouter votre première tâche.</p>
+    </div>
+  </main>
+
+  <button id="addBtn" class="fab" aria-label="Ajouter une tâche">+</button>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <!-- Formulaire d'ajout / modification -->
+  <dialog id="editor">
+    <form id="editorForm" method="dialog">
+      <h2 id="editorTitle">Nouvelle tâche</h2>
+
+      <label>Tâche
+        <input id="fTitle" type="text" placeholder="Que faut-il faire ?" required maxlength="200" autocomplete="off">
+      </label>
+
+      <label>Catégorie
+        <select id="fCategory"></select>
+      </label>
+
+      <fieldset>
+        <legend>Priorité</legend>
+        <div class="segmented" id="fPriority">
+          <button type="button" data-p="0">Basse</button>
+          <button type="button" data-p="1" class="active">Normale</button>
+          <button type="button" data-p="2">Haute</button>
+        </div>
+      </fieldset>
+
+      <label class="switch-row">Définir une échéance
+        <input id="fHasDue" type="checkbox">
+      </label>
+      <input id="fDue" type="date" hidden>
+
+      <label class="switch-row">Me rappeler
+        <input id="fHasReminder" type="checkbox">
+      </label>
+      <input id="fReminder" type="datetime-local" hidden>
+      <p id="notifHint" class="hint" hidden></p>
+
+      <div class="actions">
+        <button type="button" id="cancelBtn" class="btn">Annuler</button>
+        <button type="submit" id="saveBtn" class="btn primary">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Options -->
+  <dialog id="menu">
+    <h2>Options</h2>
+
+    <label>Filtrer par catégorie
+      <select id="catFilter"></select>
+    </label>
+
+    <label>Thème
+      <select id="theme">
+        <option value="system">Système</option>
+        <option value="light">Clair</option>
+        <option value="dark">Sombre</option>
+      </select>
+    </label>
+
+    <div class="btn-row">
+      <button id="exportBtn" class="btn" type="button">Exporter</button>
+      <button id="importBtn" class="btn" type="button">Importer</button>
+    </div>
+    <input id="importFile" type="file" accept="application/json,.json" hidden>
+
+    <button id="clearDone" class="btn danger" type="button">Effacer les tâches terminées</button>
+    <button id="installBtn" class="btn" type="button" hidden>Installer l'application</button>
+    <p id="iosHint" class="hint" hidden>
+      Pour installer sur iPhone : touchez le bouton Partager de Safari,
+      puis « Sur l'écran d'accueil ».
+    </p>
+
+    <div class="actions">
+      <button id="closeMenu" class="btn primary" type="button">Fermer</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
